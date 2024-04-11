@@ -2,9 +2,7 @@
 margin + sizing/positioning
 padding + internal content
 visual styling
-text styling 
-
-top, right, bottom, left */
+text styling */
 
 body {
   background-attachment: fixed;
@@ -30,7 +28,7 @@ body {
 
   display: flex;
 }
-#header img {
+#header a, #header img {
   margin: auto;
   height: 100%;
   width: auto;

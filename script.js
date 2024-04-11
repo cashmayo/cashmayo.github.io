@@ -7,7 +7,7 @@ function autoSizeColumn() {
     } else {
         column.style.width = '90%';
     }
-    if (window.innerWidth < 1080) { // if the window gets too narrow, remove icon
+    if (window.innerWidth < 1150) { // if the window gets too narrow, remove icon
         icon.hidden = true;
     } else {
         icon.hidden = false;
