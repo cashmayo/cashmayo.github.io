@@ -1,0 +1,267 @@
+/* format:
+margin + sizing/positioning
+padding + internal content
+visual styling
+text styling 
+
+top, right, bottom, left */
+
+body {
+  background-attachment: fixed;
+  background-image: url('./images/background.png');
+  background-size: 100% 100%; 
+
+  font-family: Verdana, sans-serif;
+  font-size: 133%;
+}
+#column {
+  margin: auto;
+  max-width: 90%;
+  width: 1080px;
+}
+
+#header {
+  margin: 8px 0px;
+  height: 200px; 
+
+  background-color:#fffa;
+  border-radius: 64px;
+  box-shadow: 0px 0px 6px 3px #0003;
+
+  display: flex;
+}
+#header img {
+  margin: auto;
+  height: 100%;
+  width: auto;
+  max-width:100%;
+}
+.menu-bar, main {
+  margin: 8px 0px;
+  padding: 15px;
+  
+  border-radius: 10px;
+  box-shadow: 0px 0px 6px 3px #0003;
+}
+
+.menu-bar {
+  padding-right: 0px;
+  display: flex;
+  flex-wrap: wrap;
+
+  background-color:#fffa;
+  border: 2px solid #aa00bbcc;
+}
+.menu-bar a, .dropdown .dropbtn {
+  margin: 4px;
+
+  padding: 18px 37px;
+  
+  background-color:#fffc;
+  border: 2px solid #aa00bbcc;
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px 3px #0003;
+
+  font-family: Tahoma, sans-serif;
+  font-size: 100%;
+  text-align: center;
+}
+.speedrun-bar {
+  margin: 0px auto 12px auto;
+  width: 80%;
+}
+.speedrun-bar a {
+  padding: 18px 59px;
+}
+.menu-bar .current-page, .sr .current-page {
+  background-color:#0007;
+
+  color:white;
+}
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+}
+.nav-button {
+  margin: 0px 8px;
+
+  padding: 8px;
+  
+  background-color:#fffc;
+  border: 1px solid #aa00bbcc;
+  border-radius: 5px;
+  box-shadow: 0px 0px 4px 3px #0003;
+
+  font-family: Tahoma, sans-serif;
+}
+
+main {
+  background-color: #fffc;
+}
+main p {
+  padding: 0px 4px;
+
+  text-indent: 72px;
+}
+.sections-container p {
+  margin: 24px;
+
+  text-indent: 0px;
+}
+
+h1 {
+  margin: 20px 0px 0px 20px;
+
+  font-size: 175%;
+}
+h2 {
+  margin-left: 28px;
+
+  font-size: 144%;
+  text-decoration-line: underline;
+}
+h3 {
+  margin-left: 32px;
+
+  font-size: 133%;
+}
+
+li ul {
+  margin-left: -24px;
+
+  font-size: 95%;
+}
+ul, ol {
+  margin-left: 72px;
+}
+li {
+  margin: 12px 0px;
+}
+ul li {
+  padding-left: 40px;
+}
+ol li {
+  padding-left: 20px;
+}
+.sections-container ul {
+  margin-left: 144px;
+}
+
+.table-container {
+  overflow-x: auto;
+}
+table {
+  margin-bottom: 17px;
+
+  border-collapse: collapse;
+
+  background-color:#fff9;
+
+  font-size: 90%;
+}
+td, th {
+  padding: 8px;
+
+  border: 1px solid black;
+}
+.row-header {
+  text-align: center;
+}
+
+.media-gallery {
+  width: 80%;
+  margin: 12px auto;
+
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  border: 1px solid black;
+  border-radius: 10px;
+}
+.media-gallery img {
+  width: calc(50% - 20px);
+  height: auto;
+  margin: 10px;
+}
+.standalone-media { /* works best with a specified height or width per standalone img! */
+  margin: 10px auto;
+  display: block;
+  max-width: 95%;
+}
+iframe.standalone-media {
+  width: 720px;
+  height: 408px;
+}
+
+.caption {
+  font-size: 85%;
+  text-align: center;
+}
+.bi { /* I disliked using tag combos to achieve this */
+  font-style: italic;
+  font-weight: bold;
+}
+.technically { /* for use with span and title. similar to <abbr>, but for misc. info instead of exclusively abbreviations */
+  background-color:#FF03;
+
+  text-decoration-line: underline;
+  text-decoration-style: dotted; 
+}
+
+#attributions-header {
+  margin: 24px 0px;
+
+  font-family: Georgia, serif;
+  font-size: 364%;
+  letter-spacing: 16px;
+  text-align: center;
+  word-spacing: 16px;
+}
+#attributions-container {
+  text-align:center;
+}
+.spoiler {
+  background-color: #aa00bb;
+  color: #aa00bb;
+}
+.spoiler:hover {
+  background-color: transparent;
+  color: #8800aa;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropbtn {
+  color:#222;
+}
+.dropdown-content a, .dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  width: 100%;
+  
+  background-color:white;
+  box-shadow: 0px 0px 6px 3px #0003;
+  border-radius: 10px;
+  z-index: 1;
+}
+.menu-bar a:hover, .dropdown:hover .dropbtn {
+  background-color:#ddd;
+
+  color:black;
+}
+
+
+
+
+
+
+
+
+
