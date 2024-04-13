@@ -77,7 +77,9 @@ body {
   color:white;
 }
 .nav-container {
+  margin: 24px auto 0px;
   display: flex;
+
   justify-content: space-between;
 }
 .nav-button {
@@ -149,8 +151,6 @@ ol li {
   overflow-x: auto;
 }
 table {
-  margin-bottom: 17px;
-
   border-collapse: collapse;
 
   background-color:#fff9;
@@ -222,10 +222,12 @@ iframe.standalone-media {
 }
 .spoiler {
   background-color: #aa00bb;
+
   color: #aa00bb;
 }
 .spoiler:hover {
   background-color: transparent;
+
   color: #8800aa;
 }
 
@@ -254,12 +256,3 @@ iframe.standalone-media {
 
   color:black;
 }
-
-
-
-
-
-
-
-
-
