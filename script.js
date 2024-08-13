@@ -1,30 +1,41 @@
-// adjust page content/layout on resize
-var column = document.querySelector("#column");
-var icon = document.querySelector("#icon");
-function autoSizeColumn() {
-    if (window.innerWidth > window.innerHeight) { // if the window is taller than it is wide, change the column width
-        column.style.width = '1080px';
-    } else {
-        column.style.width = '90%';
-    }
-    if (window.innerWidth < 1150) { // if the window gets too narrow, remove icon
-        icon.hidden = true;
-    } else {
-        icon.hidden = false;
-    }
-}
-autoSizeColumn(); // adjusts size when page loads
-window.addEventListener("resize", autoSizeColumn); // adds handler for anytime window is resized
+"use strict";
+let columnElement;
+let iconElement;
+let chibiElement;
 
-// easteregg on the speedruns-index page
-var chibi = document.getElementById("chibimayo")
-function mouseMove(e) {
-    if (e.offsetX > 24 && e.offsetX < 124 && e.offsetY > 42 && e.offsetY < 115) {
-        chibi.src = "images/cmchibimad.png";
-    } else {
-        chibi.src = "images/cmchibi.png";
+//adjusts page content/layout on resize (kinda dislike how the event triggers this function a bazillion times per second but oh well)
+function autoSizeColumn() { //
+    if (window.innerWidth > window.innerHeight) // if window is taller than it is wide, change column width
+        columnElement.style.width = "1080px";
+    else
+        columnElement.style.width = "90%";
+    // if the window gets too narrow, hide icon
+    iconElement.hidden = window.innerWidth < 1200;
+} 
+
+//speedruns-index easteregg
+function chibiMouseDownHandler(e) {
+    let x = Math.abs(e.offsetX - 74);
+    let y = Math.abs(e.offsetY - 80) * 1.25;
+    let dist = Math.sqrt((x * x) + (y * y));
+    if (dist < 52)
+        chibiElement.src = "images/cmchibimad.png";
+}
+function chibiMouseUpHandler() {
+    chibiElement.src = "images/cmchibi.png";
+}
+
+//load event
+document.addEventListener("DOMContentLoaded", () => {
+    columnElement = document.getElementById("column");
+    iconElement = document.getElementById("icon");
+
+    autoSizeColumn();
+    window.addEventListener("resize", autoSizeColumn);
+
+    chibiElement = document.getElementById("chibimayo"); 
+    if (chibiElement !== null) {
+        chibiElement.addEventListener("mousedown", chibiMouseDownHandler); //speedruns-index easteregg 
+        chibiElement.addEventListener("mouseup", chibiMouseUpHandler);
     }
-}
-function mouseLeft() {
-    chibi.src = "images/cmchibi.png";
-}
+});
