@@ -9,13 +9,14 @@ let thumbnailUrlSpan;
 let imgElement;
 let thumbnailElement;
 async function fetchRandomPhoto() {
+    fetchButton.disabled = true;
+    
     try {
         const response = await fetch("https://jsonplaceholder.typicode.com/photos/" + (Math.random() * 5000 | 0));
         if (!response.ok)
             throw new Error("jsonplaceholder fetch response did not return ok");
         const data = await response.json();
 
-        fetchButton.disabled = true;
         albumIdSpan.textContent = data.albumId;
         idSpan.textContent = data.id;
         titleSpan.textContent = data.title;
