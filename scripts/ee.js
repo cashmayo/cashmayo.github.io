@@ -1,6 +1,6 @@
 "use strict";
 
-const SECRET_PAGE_URL = "https://cashmayo.github.io/secret.html";
+const SECRET_PAGE_URL = "https://cashmayo.github.io/secret-projects.html";
 function raccmayoMouseDownHandler(e) {
     console.log("racc: " + e.offsetX + ", " + e.offsetY)
     let x = Math.abs(e.offsetX - 102);
@@ -15,8 +15,7 @@ function partyraccMouseDownHandler(e) {
     let y = Math.abs(e.offsetY - 193) * 3;
     let dist = Math.sqrt((x * x) + (y * y));
     if (dist < 15)
-        console.log("NOSE BOOPED")
-    window.location = SECRET_PAGE_URL;
+        window.location = SECRET_PAGE_URL;
 }
 
 function chibiMouseDownHandler(e) {
