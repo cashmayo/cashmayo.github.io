@@ -154,7 +154,7 @@ function removePlayerSrc() {
     fixTitle();
 }
 function fixTitle() {
-    if (currentlyPlaying === WHEN_YOURE_GONE_ANCHOR || (!SHOW_PARAM && currentlyPlaying === OBSESSIONS_ANCHOR)) {
+    if (currentlyPlaying === WHEN_YOURE_GONE_ANCHOR || (!PARAM_SHOW && currentlyPlaying === OBSESSIONS_ANCHOR)) {
         DOG_CASH_WRAPPER.title = "Do you miss me when you're gone?";
         DOG_CASH_WRAPPER.style.cursor = "help";
     } else {
