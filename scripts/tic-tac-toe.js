@@ -1,4 +1,4 @@
-// Nicholas Leonard - Javascript Project 2 - 8/2/24
+// Javascript Project 2 - 8/2/24
 "use strict";
 
 //constants & classes
@@ -101,6 +101,7 @@ const L_FORKS = [
 let tbodyElement;
 let cellElements;
 let matchInfoElement;
+let winnerElement;
 let restartButton;
 let playAgainButton;
 let gameClockSpan;
@@ -201,6 +202,7 @@ function endGame(winner) {
         restartButton.textContent = "Start";
     } else {
         matchInfoElement.textContent = `${winner} has won the match!`;
+        winnerElement.textContent = winner;
         playAgainButton.hidden = false;
         restartButton.disabled = true;
         playAgainButton.focus();
@@ -376,7 +378,7 @@ function getCpuMoveTryhard() { //returns a sweaty tryhard move (cant be won agai
 
 //cpu util.
 function getRandomInteger(bound) { //returns random integer between zero (inclusive) and bound (exclusive)
-    return Math.random() * bound | 0
+    return Math.random() * bound | 0;
 }
 function getRandomCornerCell() { //returns a random corner cell
     let cellId = getRandomInteger(4) * 2;
@@ -418,6 +420,7 @@ document.addEventListener("DOMContentLoaded", () => {
     tbodyElement = document.querySelector("tbody");
     cellElements = document.querySelectorAll("td");
     matchInfoElement = document.getElementById("match_info");
+    winnerElement = document.getElementById("winner");
     restartButton = document.getElementById("restart_button");
     playAgainButton = document.getElementById("play_again_button");
     gameClockSpan = document.getElementById("game_clock");
