@@ -55,7 +55,6 @@ rjSpan.addEventListener(CLICK_EVENT, () => {
     setTimeout(() => { rjSpan.textContent += " ¿?"; }, 10600);
     //user prompt
     setTimeout(() => {
-        rjSpan.setAttribute("style", "cursor: pointer;");
         if (confirm("It seems like RJ wants to show you something...\n\nTake his hand?")) //OK
             takeHand();
         else //Cancel
