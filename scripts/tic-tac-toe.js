@@ -101,7 +101,6 @@ const L_FORKS = [
 let tbodyElement;
 let cellElements;
 let matchInfoElement;
-let winnerElement;
 let restartButton;
 let playAgainButton;
 let gameClockSpan;
@@ -202,7 +201,6 @@ function endGame(winner) {
         restartButton.textContent = "Start";
     } else {
         matchInfoElement.textContent = `${winner} has won the match!`;
-        winnerElement.textContent = winner;
         playAgainButton.hidden = false;
         restartButton.disabled = true;
         playAgainButton.focus();
@@ -420,7 +418,6 @@ document.addEventListener("DOMContentLoaded", () => {
     tbodyElement = document.querySelector("tbody");
     cellElements = document.querySelectorAll("td");
     matchInfoElement = document.getElementById("match_info");
-    winnerElement = document.getElementById("winner");
     restartButton = document.getElementById("restart_button");
     playAgainButton = document.getElementById("play_again_button");
     gameClockSpan = document.getElementById("game_clock");

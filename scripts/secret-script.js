@@ -33,8 +33,8 @@ BANNER_CONTAINER.addEventListener(MOUSEENTER_EVENT, () => CM_ICON.src = "images/
 BANNER_CONTAINER.addEventListener(MOUSELEAVE_EVENT, () => CM_ICON.src = "images/cmiconinactive.png");
 
 //rj
-rjSpan.addEventListener(MOUSEENTER_EVENT, () => {
-    if (rjSpan.textContent !== ",'{B')   " || WINNER_ELEMENT.textContent !== "X") return;
+rjSpan.addEventListener(CLICK_EVENT, () => {
+    if (rjSpan.textContent !== ",'{B')   ") return;
     rjSpan.setAttribute("style", "cursor: help;");
     rjSpan.textContent = ",'{B')";
 
@@ -62,7 +62,7 @@ rjSpan.addEventListener(MOUSEENTER_EVENT, () => {
             moveGlasses(false, 200, 600, ",'{B')  ");
         rjSpan.addEventListener(CLICK_EVENT, rjBackupHandler);
     }, 11800);
-});
+}, { once: true });
 function moveGlasses(up = true, delay = 400, frameInterval = 400, finalFace) {
     if (up) {
         setTimeout(() => { rjSpan.textContent = ",'{B')"; }, delay);
