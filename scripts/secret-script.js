@@ -35,7 +35,6 @@ BANNER_CONTAINER.addEventListener(MOUSELEAVE_EVENT, () => CM_ICON.src = "images/
 //rj
 rjSpan.addEventListener(CLICK_EVENT, () => {
     if (rjSpan.textContent !== ",'{B')   ") return;
-    rjSpan.setAttribute("style", "cursor: help;");
     rjSpan.textContent = ",'{B')";
 
     //initial anims
