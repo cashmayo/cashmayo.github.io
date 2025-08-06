@@ -159,7 +159,7 @@ function fixTitle() {
         DOG_CASH_WRAPPER.style.cursor = "help";
     } else {
         DOG_CASH_WRAPPER.title = "dog cash relaxing to some tunes, artwork by a friend";
-        DOG_CASH_WRAPPER.style.cursor = "pointer";
+        DOG_CASH_WRAPPER.style.cursor = "";
     }
 }
 const AUDIO_ELEMENTS = document.querySelectorAll("audio");
