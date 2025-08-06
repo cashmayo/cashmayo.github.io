@@ -172,23 +172,20 @@ const DOG_CASH_WRAPPER = document.getElementById("dog-cash-wrapper");
 const OBSESSIONS_ANCHOR = document.querySelector("#obsessions div.definitive a.player-url");
 const WHEN_YOURE_GONE = document.querySelector("#when-youre-gone");
 const WHEN_YOURE_GONE_ANCHOR = document.querySelector("#when-youre-gone div.definitive a.player-url");
-const PARAM_HIDE = GET_PARAMS.get("hide") === "true";
 const PARAM_SHOW = GET_PARAMS.get("show") === "true";
-if (PARAM_HIDE) {
-    DOG_CASH_WRAPPER.style.display = "none";
-    WHEN_YOURE_GONE.remove();
-} else {
-    window.addEventListener("resize", autoSizeColumn);
-    autoSizeColumn();
-}
+const PARAM_HIDE = GET_PARAMS.get("hide") === "true";
 if (PARAM_SHOW) {
     WHEN_YOURE_GONE.style.display = "block";
     highlightElement(WHEN_YOURE_GONE);
-}
-if (!PARAM_SHOW && !PARAM_HIDE) {
+} else if (PARAM_HIDE) {
+    DOG_CASH_WRAPPER.style.display = "none";
+    WHEN_YOURE_GONE.remove();
+} else if (!PARAM_HIDE) {
     DOG_CASH_WRAPPER.addEventListener("click", () => { if (currentlyPlaying !== OBSESSIONS_ANCHOR) return; window.location.href = "?show=true"; });
+    window.addEventListener("resize", adjustLayout);
+    adjustLayout();
 }
-function autoSizeColumn() {
+function adjustLayout() {
     DOG_CASH_WRAPPER.style = (MAIN_ELEMENT.offsetWidth < 1156) ? "float: none; margin: 36px auto;" : "";
 }
 const SPACE_KEY = document.getElementById("space-key");
