@@ -14,22 +14,22 @@ PLAYER_FIND.addEventListener("click", () => { highlightElement(currentlyPlaying)
 const PLAYER_EXIT = document.getElementById("player-exit");
 PLAYER_EXIT.addEventListener("click", removePlayerSrc);
 const IM_REALLY_SORRY = document.getElementById("im-really-sorry");
-document.getElementById("somewhere-it-fit-in").addEventListener("click", (e)=>{
+document.getElementById("somewhere-it-fit-in").addEventListener("click", (e) => {
     e.preventDefault();
     highlightElement(IM_REALLY_SORRY);
 });
 const SATING_SOMETHING_STUPID = document.getElementById("saying-something-stupid");
-document.getElementById("risk-saying-something-stupid").addEventListener("click", (e)=>{
+document.getElementById("risk-saying-something-stupid").addEventListener("click", (e) => {
     e.preventDefault();
     highlightElement(SATING_SOMETHING_STUPID);
 });
 const OBSESSIONS = document.getElementById("obsessions");
-document.getElementById("one-you'll-hear-later-on").addEventListener("click", (e)=>{
+document.getElementById("one-you'll-hear-later-on").addEventListener("click", (e) => {
     e.preventDefault();
     highlightElement(OBSESSIONS, true);
 });
 const ALL_U_NEED_IS_SYNTH = document.getElementById("all-u-need-is-synth");
-document.getElementById("entry-in-the-one-offs-section").addEventListener("click", (e)=>{
+document.getElementById("entry-in-the-one-offs-section").addEventListener("click", (e) => {
     e.preventDefault();
     highlightElement(ALL_U_NEED_IS_SYNTH);
 });
@@ -44,7 +44,7 @@ document.querySelector("#im-forgetting details").addEventListener("toggle", e =>
             P.removeAttribute("id");
             P.textContent = "I... was going to say something, but... I don't remember what it was.";
             setTimeout(() => { e.target.open = true; }, 220);
-        }, 180)
+        }, 180);
     } else {
         clearTimeout(t);
         if (P.id === "dont-look") return;
@@ -56,17 +56,17 @@ document.querySelector("#im-forgetting details").addEventListener("toggle", e =>
             });
         }, 10000);
     }
-})
+});
 function highlightElement(element, start = false) {
     if (element === null) return;
     let parentContainer = element.closest("details");
     if (parentContainer !== null) parentContainer.open = true;
     element.scrollIntoView({
         behavior: "smooth",
-        block: (start) ?  "start" : "center"
+        block: (start) ? "start" : "center"
     });
     element.classList.add("highlight");
-    element.addEventListener("animationend", function() {
+    element.addEventListener("animationend", function () {
         element.classList.remove("highlight");
     }, { once: true });
 }
@@ -140,7 +140,7 @@ function changePlayerSrc(e) {
     PLAYER_IFRAME.focus();
 
     clearTimeout(playerTimeout);
-    playerTimeout = setTimeout(()=>{
+    playerTimeout = setTimeout(() => {
         PLAYER_TITLE.textContent = anchor.textContent;
         PLAYER_IFRAME.src = anchor.href;
     }, 100);
@@ -244,5 +244,5 @@ function handleKey(keyName, down) {
         default:
             return;
     }
-    keyElement.className = (down) ? "key-pressed": "";
+    keyElement.className = (down) ? "key-pressed" : "";
 }
