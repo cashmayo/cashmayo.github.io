@@ -180,7 +180,7 @@ if (PARAM_SHOW) {
 } else if (PARAM_HIDE) {
     DOG_CASH_WRAPPER.style.display = "none";
     WHEN_YOURE_GONE.remove();
-} else if (!PARAM_HIDE) {
+} else {
     DOG_CASH_WRAPPER.addEventListener("click", () => { if (currentlyPlaying !== OBSESSIONS_ANCHOR) return; window.location.href = "?show=true"; });
     window.addEventListener("resize", adjustLayout);
     adjustLayout();

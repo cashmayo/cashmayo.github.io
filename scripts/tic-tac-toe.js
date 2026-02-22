@@ -348,7 +348,7 @@ function getCpuMoveTryhard() { //returns a sweaty tryhard move (cant be won agai
                 return forcedMove;
         //no break: fall-through
         case 4:
-            forcedMove = findWinningMove(X_CHAR)
+            forcedMove = findWinningMove(X_CHAR);
             if (forcedMove !== undefined)
                 return forcedMove;
     }
@@ -390,7 +390,7 @@ function findWinningMove(player) { //returns a move that will win for the specif
     combosLoop:
     for (i = 0; i < WIN_COMBOS.length; i++) {
 
-        score = 0
+        score = 0;
         for (z = 0; z < WIN_COMBOS[i].length; z++)
             switch (boardState[WIN_COMBOS[i][z]]) {
                 case player:
@@ -423,7 +423,7 @@ document.addEventListener("DOMContentLoaded", () => {
     gameClockSpan = document.getElementById("game_clock");
 
     for (let i = 0; i < RAD_INPUTS.length; i++) { //rad inputs
-        RAD_INPUTS[i].addEventListener(CLICK_EVENT, handleRadioClick)
+        RAD_INPUTS[i].addEventListener(CLICK_EVENT, handleRadioClick);
         if (RAD_INPUTS[i].checked) cpuMode = parseInt(RAD_INPUTS[i].dataset.number);
     }
     for (let i = 0; i < cellElements.length; i++) //cell click events
