@@ -1,10 +1,16 @@
-// Javascript Project 2 - 8/2/24
-"use strict";
+//elements
+const RAD_INPUTS = document.querySelectorAll("input[name='gamemode']");
+const TBODY = document.getElementById("tic-tac-toe-board");
+const CELLS = document.querySelectorAll("#tic-tac-toe-board td");
+const MATCH_INFO = document.getElementById("match-info");
+const RESTART_BUTTON = document.getElementById("restart-button");
+const PLAY_AGAIN_BUTTON = document.getElementById("play-again-button");
+const GAME_CLOCK_SPAN = document.getElementById("game-clock");
 
-//constants & classes
+//constants
 const X_CHAR = "X";
 const O_CHAR = "O";
-const UNPLAYABLE_CLASSNAME = "unplayable";
+const UNPLAYABLE_CLASS = "unplayable";
 
 const NO_CPU = 0;
 const SIMPLE_CPU = 1;
@@ -97,14 +103,6 @@ const L_FORKS = [
     new Fork([2, 5])
 ];
 
-//elements
-let tbodyElement;
-let cellElements;
-let matchInfoElement;
-let restartButton;
-let playAgainButton;
-let gameClockSpan;
-
 //variables
 let isGameActive;
 let isOsTurn;
@@ -136,8 +134,8 @@ function activateCell(cellId, isPlayer) {
     boardState[cellId] = player;
     ownedCells.push(cellId);
     //update DOM
-    cellElements[cellId].textContent = player;
-    cellElements[cellId].className = UNPLAYABLE_CLASSNAME;
+    CELLS[cellId].textContent = player;
+    CELLS[cellId].className = UNPLAYABLE_CLASS;
 
     //check for win/draw
     console.log(`turn${turnCount}: ${(isOsTurn && cpuMode !== NO_CPU) ? "CPU" + cpuMode : player} played cell ${cellId}`);
@@ -156,7 +154,7 @@ function updateTurn() { //update turn vars/info/UI & call CPU to play if necessa
     turnCount++;
     isOsTurn = !isOsTurn;
     if (isOsTurn) {
-        matchInfoElement.textContent = "It is O's turn.";
+        MATCH_INFO.textContent = "It is O's turn.";
         switch (cpuMode) {
             case SIMPLE_CPU:
                 isAwaitingCpu = true;
@@ -171,7 +169,7 @@ function updateTurn() { //update turn vars/info/UI & call CPU to play if necessa
                 cpuTurnTimeout = setTimeout(() => activateCell(getCpuMoveTryhard(), false), 333);
         }
     } else {
-        matchInfoElement.textContent = "It is X's turn.";
+        MATCH_INFO.textContent = "It is X's turn.";
         isAwaitingCpu = false;
     }
 }
@@ -180,7 +178,7 @@ function playerHasWon(cellsOwned) { //returns true if the list of moves include 
     for (i = 0; i < WIN_COMBOS.length; i++)
         if (cellsOwned.includes(WIN_COMBOS[i][0]) && cellsOwned.includes(WIN_COMBOS[i][1]) && cellsOwned.includes(WIN_COMBOS[i][2])) {
             for (z = 0; z < WIN_COMBOS[i].length; z++)
-                cellElements[WIN_COMBOS[i][z]].className = "winning";
+                CELLS[WIN_COMBOS[i][z]].className = "winning";
             return true;
         }
     return false;
@@ -193,25 +191,25 @@ function endGame(winner) {
     clearInterval(gameClockInterval);
 
     //update UI
-    tbodyElement.className = UNPLAYABLE_CLASSNAME;
+    TBODY.className = UNPLAYABLE_CLASS;
 
     console.log(`WINNER: ${winner} — GAME OVER`);
     if (winner === undefined) {
-        matchInfoElement.textContent = "Match was ended.";
-        restartButton.textContent = "Start";
+        MATCH_INFO.textContent = "Match was ended.";
+        RESTART_BUTTON.textContent = "Start";
     } else {
-        matchInfoElement.textContent = `${winner} has won the match!`;
-        playAgainButton.hidden = false;
-        restartButton.disabled = true;
-        playAgainButton.focus();
+        MATCH_INFO.textContent = `${winner} has won the match!`;
+        PLAY_AGAIN_BUTTON.hidden = false;
+        RESTART_BUTTON.disabled = true;
+        PLAY_AGAIN_BUTTON.focus();
     }
 }
 function startGame() {
     //wipe board content/styles
-    tbodyElement.className = "";
-    for (let i = 0; i < cellElements.length; i++) {
-        cellElements[i].textContent = "";
-        cellElements[i].className = "";
+    TBODY.className = "";
+    for (let i = 0; i < CELLS.length; i++) {
+        CELLS[i].textContent = "";
+        CELLS[i].className = "";
     }
 
     //game setup
@@ -227,11 +225,11 @@ function startGame() {
     gameClockInterval = setInterval(gameClockTick, 1000);
 
     //update UI
-    restartButton.textContent = "Restart";
-    playAgainButton.hidden = true;
-    restartButton.disabled = false;
+    RESTART_BUTTON.textContent = "Restart";
+    PLAY_AGAIN_BUTTON.hidden = true;
+    RESTART_BUTTON.disabled = false;
 
-    gameClockSpan.textContent = "0:00:00";
+    GAME_CLOCK_SPAN.textContent = "0:00:00";
 
     updateTurn();
 }
@@ -239,11 +237,7 @@ function gameClockTick() {
     const ZERO_CHAR = "0";
     gameClockDuration++;
     let mins = gameClockDuration / 60 | 0;
-    gameClockSpan.textContent = `${mins / 60 | 0}:${String(mins % 60).padStart(2, ZERO_CHAR)}:${String(gameClockDuration % 60).padStart(2, ZERO_CHAR)}`;
-}
-function handleRadioClick(event) {
-    if (isGameActive) endGame();
-    cpuMode = parseInt(event.target.dataset.number);
+    GAME_CLOCK_SPAN.textContent = `${mins / 60 | 0}:${String(mins % 60).padStart(2, ZERO_CHAR)}:${String(gameClockDuration % 60).padStart(2, ZERO_CHAR)}`;
 }
 
 //cpu
@@ -373,7 +367,6 @@ function getCpuMoveTryhard() { //returns a sweaty tryhard move (cant be won agai
             return getCpuMoveSimple();
     }
 }
-
 //cpu util.
 function getRandomInteger(bound) { //returns random integer between zero (inclusive) and bound (exclusive)
     return Math.random() * bound | 0;
@@ -410,28 +403,16 @@ function findWinningMove(player) { //returns a move that will win for the specif
     return undefined;
 }
 
-//load event
-document.addEventListener("DOMContentLoaded", () => {
-    const CLICK_EVENT = "click";
-    const RAD_INPUTS = document.querySelectorAll("input");
-
-    tbodyElement = document.querySelector("tbody");
-    cellElements = document.querySelectorAll("td");
-    matchInfoElement = document.getElementById("match_info");
-    restartButton = document.getElementById("restart_button");
-    playAgainButton = document.getElementById("play_again_button");
-    gameClockSpan = document.getElementById("game_clock");
-
-    for (let i = 0; i < RAD_INPUTS.length; i++) { //rad inputs
-        RAD_INPUTS[i].addEventListener(CLICK_EVENT, handleRadioClick);
-        if (RAD_INPUTS[i].checked) cpuMode = parseInt(RAD_INPUTS[i].dataset.number);
-    }
-    for (let i = 0; i < cellElements.length; i++) //cell click events
-        cellElements[i].addEventListener(CLICK_EVENT, () => activateCell(i, true));
-
-    restartButton.addEventListener(CLICK_EVENT, () => {
+//events
+for (let i = 0; i < RAD_INPUTS.length; i++) {
+    RAD_INPUTS[i].addEventListener("click", (e) => {
         if (isGameActive) endGame();
-        else startGame();
+        cpuMode = Number(e.currentTarget.getAttribute("data-number"));
     });
-    playAgainButton.addEventListener(CLICK_EVENT, startGame);
-});
+    if (RAD_INPUTS[i].checked) cpuMode = Number(RAD_INPUTS[i].getAttribute("data-number"));
+}
+for (let i = 0; i < CELLS.length; i++)
+    CELLS[i].addEventListener("click", () => activateCell(i, true));
+
+RESTART_BUTTON.addEventListener("click", () => { if (isGameActive) endGame(); else startGame(); });
+PLAY_AGAIN_BUTTON.addEventListener("click", startGame);

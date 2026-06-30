@@ -1,123 +1,124 @@
-"use strict";
-const CLICK_EVENT = "click";
-const MOUSEENTER_EVENT = "mouseenter";
-const MOUSELEAVE_EVENT = "mouseleave";
-const IMAGE_PRELOAD_LINKS = ["images/speakeron.png", "images/cmiconactive.png"];
-const SPEAKER_IMG = document.getElementById("speaker");
-const APPLAUSE_AUDIO = document.getElementById("applause");
-const CM_ICON = document.getElementById("cm-icon");
-const BANNER_CONTAINER = document.getElementById("banner-container");
-const WINNER_ELEMENT = document.getElementById("winner");
-const rjSpan = document.getElementById("rj");
-const NEW_URL = "https://cashmayo.github.io/super-secret.html";
+{ //page setup
+    const IMAGE_PRELOAD_URLS = ["./images/speakeron.png", "./images/cmiconactive.png"];
+    const SPEAKER_IMG = document.getElementById("speaker");
+    const APPLAUSE_AUDIO = document.getElementById("applause");
+    const CM_ICON = document.getElementById("cm-icon");
+    const BANNER_CONTAINER = document.getElementById("banner-container");
 
-//speaker gimmick
-SPEAKER_IMG.addEventListener(CLICK_EVENT, () => {
-    if (APPLAUSE_AUDIO.paused)
-        APPLAUSE_AUDIO.play();
-    else {
-        APPLAUSE_AUDIO.pause();
-        APPLAUSE_AUDIO.currentTime = 0;
+    //speaker gimmick
+    SPEAKER_IMG.addEventListener("click", () => {
+        if (APPLAUSE_AUDIO.paused)
+            APPLAUSE_AUDIO.play();
+        else {
+            APPLAUSE_AUDIO.pause();
+            APPLAUSE_AUDIO.currentTime = 0;
+        }
+    });
+    APPLAUSE_AUDIO.addEventListener("play", () => SPEAKER_IMG.src = "./images/speakeron.png");
+    APPLAUSE_AUDIO.addEventListener("pause", () => SPEAKER_IMG.src = "./images/speakeroff.png");
+    APPLAUSE_AUDIO.volume = 0.5;
+    for (let url of IMAGE_PRELOAD_URLS) {
+        const image = new Image();
+        image.src = url;
     }
-});
-APPLAUSE_AUDIO.addEventListener("play", () => SPEAKER_IMG.src = "images/speakeron.png");
-APPLAUSE_AUDIO.addEventListener("pause", () => SPEAKER_IMG.src = "images/speakeroff.png");
-APPLAUSE_AUDIO.volume = 0.5;
-for (let link of IMAGE_PRELOAD_LINKS) {
-    const image = new Image();
-    image.src = link;
+
+    //banner gimmick
+    BANNER_CONTAINER.addEventListener("mouseenter", () => CM_ICON.src = "./images/cmiconactive.png");
+    BANNER_CONTAINER.addEventListener("mouseleave", () => CM_ICON.src = "./images/cmiconinactive.png");
 }
 
-//banner gimmick
-BANNER_CONTAINER.addEventListener(MOUSEENTER_EVENT, () => CM_ICON.src = "images/cmiconactive.png");
-BANNER_CONTAINER.addEventListener(MOUSELEAVE_EVENT, () => CM_ICON.src = "images/cmiconinactive.png");
+{ //rj
+    const rjSpan = document.getElementById("rj");
+    const moveGlassesUpAnim = [
+        [",'{B')", 1],
+        [",'{B:')", 1],
+        [",'B{:')", 1]
+    ];
+    const moveGlassesDownAnim = [
+        [",'B{:')", 1],
+        [",'{B:')", 1],
+        [",'{B')", 1]
+    ];
+    const initialClickAnim = [
+        [",'B{:'o ", 4],
+        [",'B{:'o  !", 1],
+        [",'B{:'o  !  !", 1],
+        [",'B{:'o  !  !  !", 8],
+        [",'B{:'D", 10],
+        [",'B{:')", 7],
+        [",'B{;')", 1],
+        [",'B{:')", 1],
+        [",'B{;')", 1],
+        [",'B{:')", 1],
+        [",'B{;')", 4],
+        [",'B{:')", 6],
+        [",'B{:') ¿?", 7]
+    ];
+    const takeHandAnim = [
+        [",'B{:'D", 4],
+        [",'B{:'DD", 1],
+        [",'B{:'DDD", 1],
+        [",'B{:'DDDD", 1],
+        [",'B{:'DDDDD", 1],
+        [",'B{:'DDDDDD", 6],
+        [",'B{:')", 2]
+    ];
+    const altTakeHandAnim = [
+        [",'B{:'3", 4],
+        [",'B{x'3", 4],
+        [",'B{x'P", 6],
+        [",'B{x')", 3],
+        [",'B{:')", 1]
+    ];
+    async function rjInitialClickHandler() {
+        rjSpan.style.pointerEvents = "none";
+        rjSpan.textContent = ",'{B')"; //removes bold sunglasses immediately as feedback
 
-//rj
-rjSpan.addEventListener(CLICK_EVENT, () => {
-    if (rjSpan.textContent !== ",'{B')   ") return;
-    rjSpan.textContent = ",'{B')";
-
-    //initial anims
-    moveGlasses(true);
-    setTimeout(() => { rjSpan.textContent = ",'B{:'o "; }, 2800);
-    setTimeout(() => { rjSpan.textContent += " !"; }, 3400);
-    setTimeout(() => { rjSpan.textContent += " !"; }, 3600);
-    setTimeout(() => { rjSpan.textContent += " !"; }, 3800);
-    setTimeout(() => { rjSpan.textContent = ",'B{:'D"; }, 5200);
-    setTimeout(() => { rjSpan.textContent = ",'B{:')"; }, 6800);
-    setTimeout(() => { rjSpan.textContent = ",'B{;')"; }, 8000);
-    setTimeout(() => { rjSpan.textContent = ",'B{:')"; }, 8200);
-    setTimeout(() => { rjSpan.textContent = ",'B{;')"; }, 8400);
-    setTimeout(() => { rjSpan.textContent = ",'B{:')"; }, 8600);
-    setTimeout(() => { rjSpan.textContent = ",'B{;')"; }, 8800);
-    setTimeout(() => { rjSpan.textContent = ",'B{:')"; }, 9400);
-    setTimeout(() => { rjSpan.textContent += " ¿?"; }, 10600);
-    //user prompt
-    setTimeout(() => {
+        await playRjAnim(moveGlassesUpAnim, 400, 600);
+        await playRjAnim(initialClickAnim, 1000);
         if (confirm("It seems like RJ wants to show you something...\n\nTake his hand?")) //OK
-            takeHand();
+            await takeHand();
         else //Cancel
-            moveGlasses(false, 200, 600, ",'{B')  ");
-        rjSpan.addEventListener(CLICK_EVENT, rjBackupHandler);
-    }, 11800);
-}, { once: true });
-function moveGlasses(up = true, delay = 400, frameInterval = 400, finalFace) {
-    if (up) {
-        setTimeout(() => { rjSpan.textContent = ",'{B')"; }, delay);
-        setTimeout(() => { rjSpan.textContent = ",'{B:')"; }, frameInterval + delay);
-        setTimeout(() => { rjSpan.textContent = (finalFace === undefined) ? ",'B{:')" : finalFace; }, frameInterval * 2 + delay);
-    } else {
-        setTimeout(() => { rjSpan.textContent = ",'B{:')"; }, delay);
-        setTimeout(() => { rjSpan.textContent = ",'{B:')"; }, frameInterval + delay);
-        setTimeout(() => { rjSpan.textContent = (finalFace === undefined) ? ",'{B') " : finalFace; }, frameInterval * 2 + delay);
+            await playRjAnim(moveGlassesDownAnim, 200, 600);
+        rjSpan.addEventListener("click", rjBackupHandler);
+
+        rjSpan.style.pointerEvents = "all";
     }
-}
-function takeHand(altAnim = false) {
-    if (altAnim) {
-        setTimeout(() => { rjSpan.textContent = ",'B{:'3"; }, 400);
-        setTimeout(() => { rjSpan.textContent = ",'B{x'3"; }, 1200);
-        setTimeout(() => { rjSpan.textContent = ",'B{x'P"; }, 2000);
-        setTimeout(() => { rjSpan.textContent = ",'B{x')"; }, 3200);
-        setTimeout(() => { rjSpan.textContent = ",'B{:')"; }, 3800);
-        moveGlasses(false, 4200, 600);
-        setTimeout(() => { window.location.href = NEW_URL; }, 6200);
-    } else {
-        setTimeout(() => { rjSpan.textContent = ",'B{:'D"; }, 600);
-        setTimeout(() => { rjSpan.textContent += "D"; }, 1400);
-        setTimeout(() => { rjSpan.textContent += "D"; }, 1600);
-        setTimeout(() => { rjSpan.textContent += "D"; }, 1800);
-        setTimeout(() => { rjSpan.textContent += "D"; }, 2000);
-        setTimeout(() => { rjSpan.textContent += "D"; }, 2200);
-        setTimeout(() => { rjSpan.textContent = ",'B{:')"; }, 3400);
-        moveGlasses(false, 3600, 600);
-        setTimeout(() => { window.location.href = NEW_URL; }, 5600);
+    async function rjBackupHandler() {
+        rjSpan.style.pointerEvents = "none";
+
+        await playRjAnim(moveGlassesUpAnim, 200, 400);
+        if (rjSpan.hasAttribute("data-hand-taken")) { //after initial OK (and return to page)
+
+            if (confirm("Take his hand?")) await takeHand(true);
+            else await playRjAnim(moveGlassesDownAnim, 400, 400);
+
+        } else { //after initial cancel
+
+            if (confirm("Changed your mind?")) await takeHand();
+            else await playRjAnim(moveGlassesDownAnim, 400, 400);
+
+        }
+
+        rjSpan.style.pointerEvents = "all";
     }
-}
-function rjBackupHandler() {
-    let initialTextContent = rjSpan.textContent;
-    rjSpan.textContent = ",'{B')";
-    switch (initialTextContent) {
-        case ",'{B') ": //after initial OK (and return to page) "Take his hand?"
-            moveGlasses(true);
-            setTimeout(() => {
-                if (confirm("Take his hand?"))
-                    takeHand(true);
-                else
-                    moveGlasses(false, 200, 400, ",'{B') ");
-            }, 2000);
-            break;
-        case ",'{B')  ": //after initial cancel "Changed your mind?"
-            moveGlasses(true);
-            setTimeout(() => {
-                if (confirm("Changed your mind?")) //OK
-                    takeHand();
-                else
-                    moveGlasses(false, 200, 400, ",'{B')  ");
-            }, 2000);
-            break;
-    }/* super hacky code explanation:
-        upon page startup,                  when rj has THREE trailing spaces;  ",'{B')   "     mouseentering him will play the initial animation
-        after canceling initil prompt       when rj has TWO trailing spaces;    ",'{B')  "      clicking on him will show the "Changed your mind?" alert
-        after taking hand and returning,    when rj has ONE trailing space;     ",'{B') "       clicking on him will show the "Take his hand?" alert
-        during animation,                   when rj has ZERO trailing spaces;   ",'{B')"        all events will return immediately */
+    async function takeHand(altAnim = false) {
+        if (altAnim) await playRjAnim(altTakeHandAnim, 400);
+        else await playRjAnim(takeHandAnim, 600);
+        await playRjAnim(moveGlassesDownAnim, 200, 600);
+        window.location.href = "https://cashmayo.github.io/super-secret.html";
+        rjSpan.setAttribute("data-hand-taken", "");
+    }
+    async function playRjAnim(animFrames, startDelayMs = 0, tickIntervalMs = 200) {
+        if (startDelayMs > 0) await sleep(startDelayMs);
+        for (frame of animFrames) {
+            rjSpan.textContent = frame[0];
+            await sleep(frame[1] * tickIntervalMs);
+        }
+    }
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    rjSpan.addEventListener("click", rjInitialClickHandler, { once: true });
 }

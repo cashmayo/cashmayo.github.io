@@ -3,12 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="./styles/style.css">
     <title>
         Programming - Cash Cavern
     </title>
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-    <script src="scripts/script.js"></script>
+    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+    <script defer src="./scripts/script.js"></script>
     <!--
         I originally wrote alt text for nearly all of the media on this page. 
         But I decided later that the images are actually decorative, and so I used mostly empty alt attributes instead. 
@@ -20,35 +20,35 @@
     <div id="column">
 
         <header>
-            <a href="index.html">
-                <img src="images/cmcbanner.png" id="banner" alt="Cash Mayo's Cavern"
-                    title="Cash Mayo's Cavern banner, drawn by Cash Mayo"><img src="images/cmicon.png" id="icon" alt=""
+            <a href="./index.html">
+                <img src="./images/cmcbanner.png" id="banner" alt="Cash Mayo's Cavern"
+                    title="Cash Mayo's Cavern banner, drawn by Cash Mayo"><img src="./images/cmicon.png" id="icon" alt=""
                     title="magenta fellow icon, artwork by Staarxzy">
             </a>
         </header>
 
         <div class="menu-bar">
-            <a href="index.html">Home</a>
-            <a href="courses.html">Courses</a>
-            <a href="favorites.html">Favorites</a>
+            <a href="./index.html">Home</a>
+            <a href="./courses.html">Courses</a>
+            <a href="./favorites.html">Favorites</a>
             <div class="dropdown">
                 <button class="dropbtn">&bigtriangledown; Speedruns</button>
                 <div class="dropdown-content">
-                    <a href="speedruns-index.html">Index</a>
-                    <a href="speedruns-story.html">Story</a>
-                    <a href="speedruns-games.html">Games</a>
-                    <a href="speedruns-showcase.html">Showcase</a>
+                    <a href="./speedruns-index.html">Index</a>
+                    <a href="./speedruns-story.html">Story</a>
+                    <a href="./speedruns-games.html">Games</a>
+                    <a href="./speedruns-showcase.html">Showcase</a>
                 </div>
             </div>
-            <a href="programs.html" class="current-page">Programs</a>
-            <a href="attributions.html">Attributions</a>
+            <a href="./programs.html" class="current-page">Programs</a>
+            <a href="./attributions.html">Attributions</a>
         </div>
 
         <main>
 
             <h1>Programs I've Programmed</h1>
 
-            <img style="float:right;" height="400" src="images/cmavi.png" alt=""
+            <img style="float:right;" height="400" src="./images/cmavi.png" alt=""
                 title="magenta fellow Avatar, artwork by Staarxzy">
 
             <p>
@@ -71,7 +71,7 @@
             <hr id="forceofattraction">
 
             <h2>Force Of Attraction</h2>
-            <img class="standalone-media" height="360" src="images/foa-planetmoon.gif" alt="">
+            <img class="standalone-media" height="360" src="./images/foa-planetmoon.gif" alt="">
             <p>
                 Force of Attraction is a crude 2d simulation of gravity between masses that was inspired by an online
                 tool of a similar nature (that is now sadly inaccessible, so I can't link it.) I can manually hard-code
@@ -87,7 +87,7 @@
                 <li>move all of the objects based on their velocity</li>
                 <li>draw the objects on a bitmap and display it</li>
             </ol>
-            <img class="standalone-media" height="360" src="images/foa-diskgen.gif" alt="">
+            <img class="standalone-media" height="360" src="./images/foa-diskgen.gif" alt="">
             <p>
                 VB.NET is obviously NOT meant for real-time graphics of any kind, but I try it from time to time anyway
                 for funsies. I'm actually quite impressed that Drawing2D Graphics pulls off drawing a bitmap on a
@@ -98,12 +98,12 @@
                 I don't have anything more to say about it. It's really just the manifestation of my physics obsession
                 into a piece of pixelated eye candy!
             </p>
-            <img class="standalone-media" height="360" src="images/foa-eyecandy.gif" alt="">
+            <img class="standalone-media" height="360" src="./images/foa-eyecandy.gif" alt="">
 
             <hr id="twtdl">
 
             <h2>TwtDL</h2>
-            <img class="standalone-media" height="360" src="images/twtdl-console.png" alt="">
+            <img class="standalone-media" height="360" src="./images/twtdl-console.png" alt="">
             <p>
                 This one is a web scraper to download media from Twitter. "Scraper" has a bad connotation, but it's what
                 this technically qualifies as, even though it just downloads the <abbr title="high quality">HQ</abbr>
@@ -120,8 +120,8 @@
                 <span class="bi">THEN,</span> I thought it'd be cool if it saved the tweet text and metrics to a txt
                 file.
             </p>
-            <img class="standalone-media" width="640" src="images/twtdl-imgs.png" alt="">
-            <img class="standalone-media" width="640" src="images/twtdl-txts.png" alt="">
+            <img class="standalone-media" width="640" src="./images/twtdl-imgs.png" alt="">
+            <img class="standalone-media" width="640" src="./images/twtdl-txts.png" alt="">
             <p>
                 ... So yeah, I started out with a simple enough app that modified a string input, and accidentally set
                 out to make a supremely overengineered tweet scraper. Such is programming, I guess. I did a CRAP ton of
@@ -133,7 +133,7 @@
                 counts, it's probably this. I still use it on a regular basis, (and sometimes have to update the Xpaths
                 whenever Twitter puts out an update to make their site worse. Bleh.)
             </p>
-            <img class="standalone-media" height="440" src="images/twtdl-txt.png" alt="">
+            <img class="standalone-media" height="440" src="./images/twtdl-txt.png" alt="">
             <p>
                 For clarity's sake: this tool is exclusively for personal use. I have no intention to share it or use it
                 for anything even close to malicious. (I'm not even skilled enough to make something remotely capable of
@@ -143,7 +143,7 @@
             <hr id="noiseimage">
 
             <h2>NoiseImage</h2>
-            <img class="standalone-media" src="images/ni-form.png" alt="">
+            <img class="standalone-media" src="./images/ni-form.png" alt="">
             <p>
                 NoiseImage is kind of like TwtDL where it started as something simple: an app that creates images that
                 are just random noise. But it ended up with a number of cool features because I just kept adding what I
@@ -151,10 +151,10 @@
                 "novel" category.
             </p>
             <div class="media-gallery">
-                <img src="images/ni-gallery0.png" alt="">
-                <img src="images/ni-gallery1.png" alt="">
-                <img src="images/ni-gallery2.png" alt="">
-                <img src="images/ni-gallery3.png" alt="">
+                <img src="./images/ni-gallery0.png" alt="">
+                <img src="./images/ni-gallery1.png" alt="">
+                <img src="./images/ni-gallery2.png" alt="">
+                <img src="./images/ni-gallery3.png" alt="">
             </div>
             <p>
                 It can generate different types of random images, resize images, and my favorite thing: It can
@@ -177,7 +177,7 @@
                     </ul>
                 </li>
             </ol>
-            <img style="float:right;" height="378" src="images/ni-ascii7bitBGRmod2.png" alt="">
+            <img style="float:right;" height="378" src="./images/ni-ascii7bitBGRmod2.png" alt="">
             <p>
                 I'm pretty sure that I'm not the one who invented this method of steganography, but I was never into
                 steganography before I tried to do this, so I honestly have no idea if that's the case. I'm not even
@@ -193,20 +193,20 @@
                 entirety of Mary Shelley's "Frankenstein" that I coded into the colors of this
                 otherwise-seemingly-unassuming PNG in a tenth of a second? Of course you do!!!
             </p>
-            <img class="standalone-media" width="900" src="images/ni-unassuming.png"
+            <img class="standalone-media" width="900" src="./images/ni-unassuming.png"
                 alt="pixelated text reading: 'There is no secret message inside of this image!'">
             <p>
                 Here's an edited version with 0.01 gamma to see the noise pattern it leaves.
             </p>
-            <img class="standalone-media" width="900" src="images/ni-assuming.png"
+            <img class="standalone-media" width="900" src="./images/ni-assuming.png"
                 alt="pixelated text reading: 'There is no secret message inside of this image!' surrounded by colorful patterns">
             <p>
                 Like I said, very much novel software. But some nerdy part of me is fascinated by it!
             </p>
 
             <div class="nav-container">
-                <a href="speedruns-showcase.html" class="nav-button">&#706; Prev. Page</a>
-                <a href="attributions.html" class="nav-button">Next Page &#707;</a>
+                <a href="./speedruns-showcase.html" class="nav-button">&#706; Prev. Page</a>
+                <a href="./attributions.html" class="nav-button">Next Page &#707;</a>
             </div>
         </main>
 

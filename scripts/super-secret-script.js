@@ -1,41 +1,97 @@
-"use strict";
+//beepbox player
 const PLAYER_CONTAINER = document.getElementById("player-container");
+const PLAYER_TITLE = document.getElementById("player-title");
+const PLAYER_IFRAME = document.querySelector("#player-container > iframe");
+const PLAYER_FIND = document.getElementById("player-find");
+const PLAYER_EXIT = document.getElementById("player-exit");
+let playerTimeout, currentlyPlaying = null;
 let isDragging = false, offsetX = 0, offsetY = 0, rect;
+function changePlayerSrc(e) {
+    if (e.button) return;
+    let anchor = e.target.closest(".player-url");
+    if (!anchor) return;
+
+    e.preventDefault();
+    if (currentlyPlaying === anchor) return;
+    if (currentlyPlaying !== null) currentlyPlaying.classList.remove("currently-playing");
+    currentlyPlaying = anchor;
+    currentlyPlaying.classList.add("currently-playing");
+    fixTitle();
+
+    PLAYER_TITLE.textContent = "";
+    PLAYER_IFRAME.src = ""; //if you change URL while a song is playing, it can do weird stuff
+    PLAYER_CONTAINER.style.visibility = "visible";
+    PLAYER_IFRAME.focus();
+
+    clearTimeout(playerTimeout);
+    playerTimeout = setTimeout(() => {
+        PLAYER_TITLE.textContent = anchor.textContent;
+        PLAYER_IFRAME.src = anchor.href;
+    }, 100);
+}
+function removePlayerSrc() {
+    if (currentlyPlaying === null) return;
+    PLAYER_IFRAME.src = "";
+    PLAYER_CONTAINER.style.visibility = "hidden";
+    currentlyPlaying.classList.remove("currently-playing");
+    currentlyPlaying = null;
+    fixTitle();
+}
+function fixTitle() {
+    if (currentlyPlaying === WHEN_YOURE_GONE_ANCHOR || (!PARAM_SHOW && currentlyPlaying === OBSESSIONS_ANCHOR)) {
+        DOG_CASH_WRAPPER.title = "Do you miss me when you're gone?";
+        DOG_CASH_WRAPPER.style.cursor = "help";
+    } else {
+        DOG_CASH_WRAPPER.title = "dog cash relaxing to some tunes, artwork by a friend";
+        DOG_CASH_WRAPPER.style.cursor = "";
+    }
+}
+
 PLAYER_CONTAINER.addEventListener("mousedown", (e) => {
     isDragging = true;
     rect = PLAYER_CONTAINER.getBoundingClientRect();
     offsetX = e.clientX - rect.left;
     offsetY = e.clientY - rect.top;
 });
-document.addEventListener("mousemove", (e) => { if (isDragging) PLAYER_CONTAINER.style.transform = "translate(" + (e.clientX - offsetX) + "px, " + (e.clientY - offsetY) + "px)"; });
+document.addEventListener("mousemove", (e) => { if (isDragging) PLAYER_CONTAINER.style.transform = `translate(${e.clientX - offsetX}px, ${e.clientY - offsetY}px)`; });
 document.addEventListener("mouseup", () => { isDragging = false; });
-const PLAYER_FIND = document.getElementById("player-find");
 PLAYER_FIND.addEventListener("click", () => { highlightElement(currentlyPlaying); });
-const PLAYER_EXIT = document.getElementById("player-exit");
 PLAYER_EXIT.addEventListener("click", removePlayerSrc);
-const IM_REALLY_SORRY = document.getElementById("im-really-sorry");
-document.getElementById("somewhere-it-fit-in").addEventListener("click", (e) => {
-    e.preventDefault();
-    highlightElement(IM_REALLY_SORRY);
-});
-const SATING_SOMETHING_STUPID = document.getElementById("saying-something-stupid");
-document.getElementById("risk-saying-something-stupid").addEventListener("click", (e) => {
-    e.preventDefault();
-    highlightElement(SATING_SOMETHING_STUPID);
-});
-const OBSESSIONS = document.getElementById("obsessions");
-document.getElementById("one-you'll-hear-later-on").addEventListener("click", (e) => {
-    e.preventDefault();
-    highlightElement(OBSESSIONS, true);
-});
-const ALL_U_NEED_IS_SYNTH = document.getElementById("all-u-need-is-synth");
-document.getElementById("entry-in-the-one-offs-section").addEventListener("click", (e) => {
-    e.preventDefault();
-    highlightElement(ALL_U_NEED_IS_SYNTH);
+document.addEventListener("click", changePlayerSrc);
+
+//audio player adjustments
+const AUDIO_ELEMENTS = document.querySelectorAll("audio");
+for (let audio of AUDIO_ELEMENTS) {
+    audio.volume = 0.3;
+}
+
+//highlights
+function highlightElement(element, start = false) {
+    if (element === null) return;
+    let parentContainer = element.closest("details");
+    if (parentContainer !== null) parentContainer.open = true;
+    element.scrollIntoView({ block: (start) ? "start" : "center" });
+    element.classList.add("highlight");
+    element.addEventListener("animationend", () => {
+        element.classList.remove("highlight");
+    }, { once: true });
+}
+const HIGHLIGHT_ID_PAIRS = [ //destination, anchor, start
+    ["im-really-sorry", "somewhere-it-fit-in", false],
+    ["saying-something-stupid", "risk-saying-something-stupid", false],
+    ["obsessions", "one-you'll-hear-later-on", true],
+    ["all-u-need-is-synth", "entry-in-the-one-offs-section", false]
+];
+HIGHLIGHT_ID_PAIRS.forEach(value => {
+    let hightlightedElement = document.getElementById(value[0]);
+    document.getElementById(value[1]).addEventListener("click", (e) => {
+        e.preventDefault();
+        highlightElement(hightlightedElement, value[2]);
+    });
 });
 const P = document.getElementById("dont-look");
 let t;
-document.querySelector("#im-forgetting details").addEventListener("toggle", e => {
+document.querySelector("#im-forgetting details").addEventListener("toggle", (e) => {
     if (e.target.open) {
         clearTimeout(t);
         if (P.id !== "dont-look") return;
@@ -50,26 +106,15 @@ document.querySelector("#im-forgetting details").addEventListener("toggle", e =>
         if (P.id === "dont-look") return;
         t = setTimeout(() => {
             P.innerHTML = "I remembered...<br><br>I was going to say something.<br><br>";
-            P.style = "margin: 12px 0px; text-indent: 0px; text-align: center;";
+            P.style.cssText = "margin: 12px 0px; text-indent: 0px; text-align: center;";
             e.target.querySelectorAll("li").forEach(li => {
                 li.style.display = (li.style.display === "none") ? "inline" : "none";
             });
         }, 10000);
     }
 });
-function highlightElement(element, start = false) {
-    if (element === null) return;
-    let parentContainer = element.closest("details");
-    if (parentContainer !== null) parentContainer.open = true;
-    element.scrollIntoView({
-        behavior: "smooth",
-        block: (start) ? "start" : "center"
-    });
-    element.classList.add("highlight");
-    element.addEventListener("animationend", function () {
-        element.classList.remove("highlight");
-    }, { once: true });
-}
+
+//section nav/key shortcuts
 const DETAIL_ELEMENTS = document.querySelectorAll("details");
 const SUBSTANTIAL_HEADER = document.getElementById("substantial-header");
 const ONE_OFFS_HEADER = document.getElementById("oneoffs-header");
@@ -92,88 +137,63 @@ window.addEventListener("keydown", (e) => {
             break;
 
         case "1":
-            SUBSTANTIAL_HEADER.scrollIntoView({ behavior: "smooth", block: "start" });
+            SUBSTANTIAL_HEADER.scrollIntoView({ block: "start" });
             break;
         case "2":
-            ONE_OFFS_HEADER.scrollIntoView({ behavior: "smooth", block: "start" });
+            ONE_OFFS_HEADER.scrollIntoView({ block: "start" });
             break;
         case "3":
-            NOT_BY_ME_HEADER.scrollIntoView({ behavior: "smooth", block: "start" });
+            NOT_BY_ME_HEADER.scrollIntoView({ block: "start" });
             break;
         case "4":
-            SCRAPS_HEADER.scrollIntoView({ behavior: "smooth", block: "start" });
+            SCRAPS_HEADER.scrollIntoView({ block: "start" });
             break;
         case "5":
-            CLOSING_WORD_HEADER.scrollIntoView({ behavior: "smooth", block: "start" });
+            CLOSING_WORD_HEADER.scrollIntoView({ block: "start" });
             break;
 
         case ",":
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            window.scrollTo({ top: 0 });
             break;
         case ".":
-            window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+            window.scrollTo({ top: document.body.scrollHeight });
             break;
         default:
             return;
     }
 });
-const PLAYER_IFRAME = document.querySelector("#player-container > iframe");
-const PLAYER_TITLE = document.getElementById("player-title");
-const PLAYER_URLS = document.querySelectorAll("a.player-url");
-for (let a of PLAYER_URLS) {
-    a.addEventListener("click", changePlayerSrc);
-}
-let playerTimeout, currentlyPlaying = null;
-function changePlayerSrc(e) {
-    e.preventDefault();
-    let anchor = e.currentTarget; //e.currentTarget doesnt work async
-    if (currentlyPlaying === anchor) return;
-    if (currentlyPlaying != null) currentlyPlaying.classList.remove("currently-playing");
-    currentlyPlaying = anchor;
-    currentlyPlaying.classList.add("currently-playing");
-    fixTitle();
 
-    PLAYER_TITLE.textContent = "";
-    PLAYER_IFRAME.src = ""; //if you change URL while a song is playing, it can do weird stuff
-    if (PLAYER_CONTAINER.style.display === "none")
-        PLAYER_CONTAINER.style.display = "block";
-    PLAYER_IFRAME.focus();
+//key pressing gimmick
+const keyMap = {
+    " ": document.getElementById("space-key"),
+    "f": document.getElementById("f-key"),
+    "[": document.getElementById("l-brack-key"),
+    "]": document.getElementById("r-brack-key"),
+    "F1": document.getElementById("f1-key"),
+    "F2": document.getElementById("f2-key"),
+    "1": document.getElementById("1-key"),
+    "2": document.getElementById("2-key"),
+    "3": document.getElementById("3-key"),
+    ",": document.getElementById("comma-key"),
+    ".": document.getElementById("period-key")
+};
+document.addEventListener("keydown", handleKey);
+document.addEventListener("keyup", handleKey);
+function handleKey(e) {
+    let keyEl = keyMap[e.key];
+    if (!keyEl) return;
+    keyEl.className = (e.type === "keydown") ? "key-pressed" : "";
+}
 
-    clearTimeout(playerTimeout);
-    playerTimeout = setTimeout(() => {
-        PLAYER_TITLE.textContent = anchor.textContent;
-        PLAYER_IFRAME.src = anchor.href;
-    }, 100);
-}
-function removePlayerSrc() {
-    if (currentlyPlaying === null) return;
-    PLAYER_IFRAME.src = "";
-    PLAYER_CONTAINER.style.display = "none";
-    currentlyPlaying.classList.remove("currently-playing");
-    currentlyPlaying = null;
-    fixTitle();
-}
-function fixTitle() {
-    if (currentlyPlaying === WHEN_YOURE_GONE_ANCHOR || (!PARAM_SHOW && currentlyPlaying === OBSESSIONS_ANCHOR)) {
-        DOG_CASH_WRAPPER.title = "Do you miss me when you're gone?";
-        DOG_CASH_WRAPPER.style.cursor = "help";
-    } else {
-        DOG_CASH_WRAPPER.title = "dog cash relaxing to some tunes, artwork by a friend";
-        DOG_CASH_WRAPPER.style.cursor = "";
-    }
-}
-const AUDIO_ELEMENTS = document.querySelectorAll("audio");
-for (let audio of AUDIO_ELEMENTS) {
-    audio.volume = 0.3;
-}
-const GET_PARAMS = new URLSearchParams(window.location.search);
+//layout/setup
+const SEARCH_PARAMS = new URLSearchParams(window.location.search);
 const MAIN_ELEMENT = document.querySelector("main");
 const DOG_CASH_WRAPPER = document.getElementById("dog-cash-wrapper");
-const OBSESSIONS_ANCHOR = document.querySelector("#obsessions div.definitive a.player-url");
-const WHEN_YOURE_GONE = document.querySelector("#when-youre-gone");
-const WHEN_YOURE_GONE_ANCHOR = document.querySelector("#when-youre-gone div.definitive a.player-url");
-const PARAM_SHOW = GET_PARAMS.get("show") === "true";
-const PARAM_HIDE = GET_PARAMS.get("hide") === "true";
+const OBSESSIONS_ANCHOR = document.querySelector("#obsessions .definitive .player-url");
+const WHEN_YOURE_GONE = document.getElementById("when-youre-gone");
+const WHEN_YOURE_GONE_ANCHOR = document.querySelector("#when-youre-gone .definitive .player-url");
+const PARAM_SHOW = SEARCH_PARAMS.get("show") === "true";
+const PARAM_HIDE = SEARCH_PARAMS.get("hide") === "true";
 if (PARAM_SHOW) {
     WHEN_YOURE_GONE.style.display = "block";
     highlightElement(WHEN_YOURE_GONE);
@@ -181,68 +201,16 @@ if (PARAM_SHOW) {
     DOG_CASH_WRAPPER.style.display = "none";
     WHEN_YOURE_GONE.remove();
 } else {
-    DOG_CASH_WRAPPER.addEventListener("click", () => { if (currentlyPlaying !== OBSESSIONS_ANCHOR) return; window.location.href = "?show=true"; });
-    window.addEventListener("resize", adjustLayout);
+    DOG_CASH_WRAPPER.addEventListener("click", () => { if (currentlyPlaying === OBSESSIONS_ANCHOR) window.location.href = "?show=true"; });
+    WHEN_YOURE_GONE.remove();
     adjustLayout();
+    window.addEventListener("resize", windowResizeHandler);
+}
+let windowResizeTimout = null;
+function windowResizeHandler() {
+    clearTimeout(windowResizeTimout);
+    windowResizeTimout = setTimeout(adjustLayout, 500);
 }
 function adjustLayout() {
-    DOG_CASH_WRAPPER.style = (MAIN_ELEMENT.offsetWidth < 1156) ? "float: none; margin: 36px auto;" : "";
-}
-const SPACE_KEY = document.getElementById("space-key");
-const F_KEY = document.getElementById("f-key");
-const L_BRACK_KEY = document.getElementById("l-brack-key");
-const R_BRACK_KEY = document.getElementById("r-brack-key");
-const F1_KEY = document.getElementById("f1-key");
-const F2_KEY = document.getElementById("f2-key");
-const ONE_KEY = document.getElementById("1-key");
-const TWO_KEY = document.getElementById("2-key");
-const THREE_KEY = document.getElementById("3-key");
-const COMMA_KEY = document.getElementById("comma-key");
-const PERIOD_KEY = document.getElementById("period-key");
-window.addEventListener("keydown", (e) => {
-    handleKey(e.key, true);
-});
-window.addEventListener("keyup", (e) => {
-    handleKey(e.key, false);
-});
-function handleKey(keyName, down) {
-    let keyElement;
-    switch (keyName) {
-        case " ":
-            keyElement = SPACE_KEY;
-            break;
-        case "f":
-            keyElement = F_KEY;
-            break;
-        case "[":
-            keyElement = L_BRACK_KEY;
-            break;
-        case "]":
-            keyElement = R_BRACK_KEY;
-            break;
-        case "F1":
-            keyElement = F1_KEY;
-            break;
-        case "F2":
-            keyElement = F2_KEY;
-            break;
-        case "1":
-            keyElement = ONE_KEY;
-            break;
-        case "2":
-            keyElement = TWO_KEY;
-            break;
-        case "3":
-            keyElement = THREE_KEY;
-            break;
-        case ",":
-            keyElement = COMMA_KEY;
-            break;
-        case ".":
-            keyElement = PERIOD_KEY;
-            break;
-        default:
-            return;
-    }
-    keyElement.className = (down) ? "key-pressed" : "";
+    DOG_CASH_WRAPPER.style.cssText = (MAIN_ELEMENT.offsetWidth < 1156) ? "float: none; margin: 36px auto;" : "";
 }
